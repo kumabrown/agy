@@ -1,0 +1,25 @@
+# Multi-Target RAG Builder Requirements
+# Python 3.10+ recommended (Python 3.11, 3.12, 3.13 supported)
+
+# Vector Store & Search
+chromadb>=1.5.0
+rank-bm25>=0.2.2
+
+# LLM & Embedding Framework
+langchain>=1.4.0
+langchain-community>=0.4.0
+langchain-core>=1.6.0
+sentence-transformers>=6.0.0
+torch>=2.0.0
+
+# Document Parsers (Multi-format)
+pymupdf>=1.24.0          # PDF text & image extraction (fitz)
+python-docx>=1.1.0       # Word (.docx) parser
+python-pptx>=1.0.0       # PowerPoint (.pptx) parser
+openpyxl>=3.1.0          # Excel (.xlsx) parser
+pillow>=10.0.0           # Image processing
+
+# Utilities
+tqdm>=4.66.0
+pydantic>=2.0.0
+numpy>=1.26.0
