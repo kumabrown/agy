@@ -2,8 +2,8 @@
 
 > **문서 메타데이터**  
 > - **완료일**: YYYY-MM-DD | **작업자**: [작성자/에이전트명]  
-> - **기준 계획서**: [plan_([주제명])_[YYMMDD].md](../plans/plan_([주제명])_[YYMMDD].md)  
-> - **선행 리포트**: [report_([주제명])_[YYMMDD].md](../reports/report_([주제명])_[YYMMDD].md) <!-- 선행 분석 리포트가 있을 경우 링크 -->  
+> - **기준 계획서**: [plan_001_([주제명])_[YYMMDD]_rev00.md](../plans/plan_001_([주제명])_[YYMMDD]_rev00.md)  
+> - **선행 리포트**: [report_001_([주제명])_[YYMMDD]_rev00.md](../reports/report_001_([주제명])_[YYMMDD]_rev00.md) <!-- 선행 분석 리포트가 있을 경우 링크 -->  
 > - **커밋 / PR**: [Git Commit Hash 또는 PR 링크]  
 > - **달성도**: 100% 완료 <!-- 또는 진행 중(WIP), N% 완료 -->  
 > - **문서 모드**: Standard (전체 보고) <!-- 또는 Lightweight (소규모 패치 보고) -->  
@@ -74,14 +74,18 @@ tests/unit/test_feature.py::test_performance_threshold PASSED           [100%]
 ---
 
 ## 4. 실무 산출물 연계 (Deliverables & Assets)
-*작업 과정에서 생성된 비-마크다운 실무 자산(`agy_outputs/`)을 링크하여 추적성을 보장합니다.*
+*작업 과정에서 생성된 비-마크다운 실무 자산(`02_output_data/`)을 링크하여 추적성을 보장합니다.*
 
 <!-- 해당 작업에서 생성된 파일 링크만 남기고 나머지는 제거합니다 -->
-- **정형 데이터셋**: [`agy_outputs/csv/csv_([주제명])_[YYMMDD].csv`](../../agy_outputs/csv/)
-- **분석 스프레드시트**: [`agy_outputs/excel/excel_([주제명])_[YYMMDD].xlsx`](../../agy_outputs/excel/)
-- **다이어그램 / 화면 이미지**: [`agy_outputs/images/image_([주제명])_[YYMMDD].png`](../../agy_outputs/images/)
-- **인터랙티브 플롯**: [`agy_outputs/plots/plot_([주제명])_[YYMMDD].html`](../../agy_outputs/plots/)
-- **실행 저널 및 로그**: [`agy_outputs/text/text_([주제명])_[YYMMDD].txt`](../../agy_outputs/text/)
+- **1단계 가공·해석 데이터 (`00_data/`)**:
+  - CSV 데이터셋: [`02_output_data/00_data/csv_001_([주제명])_[YYMMDD]_rev00.csv`](../../02_output_data/00_data/)
+  - Excel 스프레드시트: [`02_output_data/00_data/excel_001_([주제명])_[YYMMDD]_rev00.xlsx`](../../02_output_data/00_data/)
+- **2단계 시각화·로그 (`01_figure/`)**:
+  - 다이어그램 / 화면 이미지: [`02_output_data/01_figure/image_001_([주제명])_[YYMMDD]_rev00.png`](../../02_output_data/01_figure/)
+  - 시각화 플롯 차트: [`02_output_data/01_figure/plot_001_([주제명])_[YYMMDD]_rev00.png`](../../02_output_data/01_figure/)
+  - 솔버 실행 로그: [`02_output_data/01_figure/log_001_([주제명])_[YYMMDD]_rev00.trn`](../../02_output_data/01_figure/)
+- **3단계 최종 보고서 (`02_reports/`)**:
+  - 기술 보고서 / 슬라이드: [`02_output_data/02_reports/pdf_001_([주제명])_[YYMMDD]_rev00.pdf`](../../02_output_data/02_reports/)
 
 ---
 
@@ -101,7 +105,7 @@ tests/unit/test_feature.py::test_performance_threshold PASSED           [100%]
 1. 대체 증적 (Alternative Evidence):
    단위 테스트 프레임워크가 없는 환경일 경우, 아래와 같이 수동 실행 로그 및 화면 스크린샷으로 대체합니다:
    > [!NOTE]
-   > 대체 증적 적용: 자동화 단위 테스트 미구축 환경으로, 수동 CLI 실행 터미널 출력 및 UI 스크린샷(agy_outputs/images/)으로 검증 대체.
+   > 대체 증적 적용: 자동화 단위 테스트 미구축 환경으로, 수동 CLI 실행 터미널 출력 및 UI 스크린샷(02_output_data/01_figure/)으로 검증 대체.
 2. Lightweight 모드 (소규모 패치):
    긴급 핫픽스나 단일 파일 패치일 경우, 1. 작업 개요, 2. 변경된 파일 목록, 3. 검증 결과의 3개 섹션으로 압축 작성합니다.
 3. Draft / WIP 상태 (장시간 연산):

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Utility script to scaffold standardized artifact files and automatically update artifacts/README.md index.
+"""Utility script to scaffold standardized artifact files and automatically update 00_artifacts/README.md index.
 
-This script enforces workspace naming standards ([category]_([topic])_[YYMMDD].md),
-copies the corresponding standard template, injects metadata, and synchronizes the
-artifacts/README.md index table.
+This script enforces the unified workspace naming standard:
+[format_tag]_[seq_3digit]_([topic])_[YYMMDD]_rev[NN].md
+It auto-increments the 3-digit sequence number per format, defaults revision to rev00,
+copies the standard template, injects metadata, and synchronizes 00_artifacts/README.md.
 """
 
 from __future__ import annotations
@@ -47,43 +48,83 @@ CATEGORY_MAP = {
 
 
 def find_workspace_root(start_dir: Path | None = None) -> Path:
-    """Locate the workspace root directory by looking for GEMINI.md or artifacts."""
+    """Locate the workspace root directory by looking for GEMINI.md or 00_artifacts."""
     current = (start_dir or Path.cwd()).resolve()
     for parent in [current, *current.parents]:
-        if (parent / "artifacts").exists() or (parent / "GEMINI.md").exists():
+        if (parent / "00_artifacts").exists() or (parent / "GEMINI.md").exists():
             return parent
     return current
 
 
 def sanitize_topic(topic: str) -> str:
-    """Sanitize the topic name according to workspace standards."""
+    """Sanitize the topic name according to workspace standards (underscores only)."""
     cleaned = topic.strip().strip("()").replace("-", "_").replace(" ", "_")
     cleaned = re.sub(r"[^\w_]", "", cleaned)
     return cleaned or "task"
+
+
+def get_next_sequence(target_dir: Path, category_name: str) -> str:
+    """Scan target_dir for existing files and determine the next 3-digit sequence number."""
+    if not target_dir.exists():
+        return "001"
+
+    pattern = re.compile(rf"^{re.escape(category_name)}_(\d{{3}})_\(")
+    max_seq = 0
+    for file_path in target_dir.glob(f"{category_name}_*.md"):
+        match = pattern.match(file_path.name)
+        if match:
+            seq_num = int(match.group(1))
+            if seq_num > max_seq:
+                max_seq = seq_num
+    return f"{max_seq + 1:03d}"
+
+
+def format_seq(seq: str | int) -> str:
+    """Format sequence into a 3-digit zero-padded string."""
+    cleaned = re.sub(r"\D", "", str(seq))
+    num = int(cleaned) if cleaned else 1
+    return f"{num:03d}"
+
+
+def format_rev(rev: str | int) -> str:
+    """Format revision into 'revNN' format."""
+    cleaned = str(rev).lower().strip()
+    if cleaned.startswith("rev"):
+        cleaned = cleaned[3:]
+    cleaned = re.sub(r"\D", "", cleaned)
+    num = int(cleaned) if cleaned else 0
+    return f"rev{num:02d}"
 
 
 def update_artifacts_index(
     readme_path: Path,
     date_str: str,
     category: str,
+    seq_str: str,
     topic: str,
     description: str,
     filename: str,
-    sub_dir: str
+    sub_dir: str,
+    status: str = "Final",
 ) -> bool:
-    """Update or append an entry to the artifacts/README.md index table."""
+    """Update or append an entry to the 00_artifacts/README.md index table."""
     if not readme_path.exists():
         print(f"  [!] Index file not found at {readme_path}. Skipping index update.")
         return False
 
     content = readme_path.read_text(encoding="utf-8")
     link_target = f"{sub_dir}/{filename}"
-    new_entry = f"| {date_str} | {category} | {topic} | {description} | [{filename}]({link_target}) |"
 
     # Avoid duplicate entry for the exact same file
     if f"[{filename}]" in content:
         print(f"  [*] Entry for {filename} already exists in {readme_path.name}.")
         return False
+
+    # Determine table column layout in README.md
+    if "| 상태 |" in content:
+        new_entry = f"| {date_str} | {category} ({seq_str}) | [{filename}]({link_target}) | {description} | {status} |"
+    else:
+        new_entry = f"| {date_str} | {category} ({seq_str}) | {topic} | {description} | [{filename}]({link_target}) |"
 
     # Search for index table header
     table_pattern = r"(##\s*📑\s*아티팩트\s*통합\s*인덱스\s*\(Index\)\s*\n\|[^\n]+\|\n\|[^\n]+\|)"
@@ -92,7 +133,6 @@ def update_artifacts_index(
         header_end = match.end()
         updated_content = content[:header_end] + "\n" + new_entry + content[header_end:]
     else:
-        # Fallback append at end of file
         updated_content = content.rstrip() + "\n" + new_entry + "\n"
 
     readme_path.write_text(updated_content, encoding="utf-8")
@@ -105,6 +145,8 @@ def create_artifact(
     topic: str,
     description: str,
     workspace_dir: Path | None = None,
+    seq: str | None = None,
+    rev: str = "00",
     lite: bool = False,
     date_override: str | None = None,
     dry_run: bool = False,
@@ -122,8 +164,14 @@ def create_artifact(
     date_str = date_override or date_obj.strftime("%y%m%d")
     full_date_str = date_obj.strftime("%Y-%m-%d")
 
-    filename = f"{config['category_name']}_({clean_topic})_{date_str}.md"
-    target_dir = workspace / "artifacts" / config["sub_dir"]
+    artifacts_root = workspace / "00_artifacts"
+    target_dir = artifacts_root / config["sub_dir"]
+
+    seq_str = format_seq(seq) if seq is not None else get_next_sequence(target_dir, config["category_name"])
+    rev_str = format_rev(rev)
+
+    # Standard template: [포맷태그]_[일련번호]_([주제명])_[YYMMDD]_rev[NN].md
+    filename = f"{config['category_name']}_{seq_str}_({clean_topic})_{date_str}_{rev_str}.md"
     target_file = target_dir / filename
 
     # Locate template file
@@ -147,7 +195,10 @@ def create_artifact(
 
     if dry_run:
         print("[DRY-RUN] Target File:", target_file)
-        print("[DRY-RUN] Index Entry:", f"| {date_str} | {config['category_name']} | {topic} | {description} | [{filename}]({config['sub_dir']}/{filename}) |")
+        print(
+            "[DRY-RUN] Index Entry:",
+            f"| {date_str} | {config['category_name']} ({seq_str}) | [{filename}]({config['sub_dir']}/{filename}) | {description} | Final |",
+        )
         return target_file
 
     target_dir.mkdir(parents=True, exist_ok=True)
@@ -157,15 +208,16 @@ def create_artifact(
         target_file.write_text(content, encoding="utf-8")
         print(f"  [+] Created artifact file: {target_file}")
 
-    readme_path = workspace / "artifacts" / "README.md"
+    readme_path = artifacts_root / "README.md"
     update_artifacts_index(
         readme_path=readme_path,
         date_str=date_str,
         category=config["category_name"],
+        seq_str=seq_str,
         topic=topic,
         description=description,
         filename=filename,
-        sub_dir=config["sub_dir"]
+        sub_dir=config["sub_dir"],
     )
 
     return target_file
@@ -173,42 +225,51 @@ def create_artifact(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Scaffold standard markdown artifact and register it in artifacts/README.md."
+        description="Scaffold standard markdown artifact ([format]_[seq]_([topic])_[YYMMDD]_rev[NN].md) and register it in 00_artifacts/README.md."
     )
     parser.add_argument(
         "--type", "-t",
         required=True,
         choices=["plan", "walkthrough", "report"],
-        help="Artifact type: plan, walkthrough, or report."
+        help="Artifact type: plan, walkthrough, or report.",
     )
     parser.add_argument(
         "--topic", "-k",
         required=True,
-        help="Topic identifier (e.g. 'auth_refactor', 'battery_cooling')."
+        help="Topic identifier (e.g. 'auth_refactor', 'battery_cooling').",
     )
     parser.add_argument(
         "--desc", "-d",
         required=True,
-        help="Brief description for the README index table."
+        help="Brief description for the README index table.",
+    )
+    parser.add_argument(
+        "--seq", "-s",
+        help="3-digit sequence number (e.g. '001'). Auto-increments if omitted.",
+    )
+    parser.add_argument(
+        "--rev", "-r",
+        default="00",
+        help="Revision number (default: '00' -> rev00).",
     )
     parser.add_argument(
         "--workspace-dir", "-w",
         type=Path,
-        help="Workspace root path (defaults to auto-detection)."
+        help="Workspace root path (defaults to auto-detection).",
     )
     parser.add_argument(
         "--lite",
         action="store_true",
-        help="Apply Lightweight mode flag in metadata."
+        help="Apply Lightweight mode flag in metadata.",
     )
     parser.add_argument(
         "--date",
-        help="Date override in YYMMDD format."
+        help="Date override in YYMMDD format.",
     )
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Simulate execution without creating files or modifying README."
+        help="Simulate execution without creating files or modifying README.",
     )
 
     args = parser.parse_args()
@@ -219,6 +280,8 @@ def main() -> None:
             topic=args.topic,
             description=args.desc,
             workspace_dir=args.workspace_dir,
+            seq=args.seq,
+            rev=args.rev,
             lite=args.lite,
             date_override=args.date,
             dry_run=args.dry_run,

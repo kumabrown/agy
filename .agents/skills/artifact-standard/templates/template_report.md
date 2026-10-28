@@ -62,9 +62,9 @@
 - [측정 결과 비교 표 또는 프로파일링 수치]
 
 <!-- 
-시각화 차트나 프로파일러 이미지가 있을 경우 agy_outputs/ 연계:
-- 인터랙티브 차트: agy_outputs/plots/plot_(주제명)_YYMMDD.html
-- 성능 비교 그래프 이미지: agy_outputs/images/image_(주제명)_YYMMDD.png
+시각화 차트나 프로파일러 이미지가 있을 경우 02_output_data/01_figure/ 연계:
+- 시각화 플롯 차트: 02_output_data/01_figure/plot_001_([주제명])_[YYMMDD]_rev00.png
+- 성능 비교 그래프 이미지: 02_output_data/01_figure/image_001_([주제명])_[YYMMDD]_rev00.png
 -->
 
 ---
@@ -79,7 +79,7 @@
    - [사유 2: 장기적인 유지보수 비용 절감]
 
 ### 2) 후속 실행 계획 (Action Items)
-- [ ] 상세 구현 계획서 수립: `artifacts/plans/plan_([주제명])_[YYMMDD].md` 작성 착수
+- [ ] 상세 구현 계획서 수립: `00_artifacts/plans/plan_001_([주제명])_[YYMMDD]_rev00.md` 작성 착수
 - [ ] 핵심 프로토타입(PoC) 구현 및 벤치마크 재검증
 - [ ] 배포 및 롤아웃 일정 수립
 

@@ -2,7 +2,7 @@
 
 > **문서 메타데이터**  
 > - **작성일**: YYYY-MM-DD | **작성자**: [작성자/에이전트명]  
-> - **연관 산출물**: [선행 Report 링크(선택) 또는 관련 이슈/티켓 번호]  
+> - **연관 산출물**: [선행 Report 링크(예: report_001_([주제명])_[YYMMDD]_rev00.md) 또는 관련 이슈 번호]  
 > - **예상 범위**: [영향받는 모듈, 디렉터리, 패키지 영역]  
 > - **문서 모드**: Standard (전체 계획) <!-- 또는 Lightweight (소규모 계획) -->  
 > - **문서 상태**: Final (확정) <!-- 또는 Draft (검토 중) -->
@@ -57,7 +57,7 @@
 flowchart TD
     subgraph Inputs ["📥 유입 데이터 / 트리거 (Inputs)"]
         In_A["💻 클라이언트 요청<br/><code>REST API / UI</code>"]
-        In_B["⚙️ 설정 및 파라미터<br/><code>Config File</code>"]
+        In_B["⚙️ 설정 및 파라미터<br/><code>01_input_data/</code>"]
     end
 
     subgraph Process ["⚡ 처리 영역 (Process)"]
@@ -66,7 +66,7 @@ flowchart TD
 
     subgraph Outputs ["📤 최종 산출물 및 영속화 (Outputs)"]
         Out_A[("🗄️ 데이터베이스 / 스토리지<br/><code>Database</code>")]
-        Out_B["📊 실무 데이터 / 보고서<br/><code>agy_outputs/</code>"]
+        Out_B["📊 실무 데이터 / 보고서<br/><code>02_output_data/</code>"]
     end
 
     %% 서브그래프 ID 간 직접 연결 (내부 세부 노드가 아닌 단계 박스 전체를 가리킴)
@@ -85,7 +85,7 @@ flowchart TD
 
 ### Level 2. 내부 세부 프로세스 흐름도 (Detailed Process Flow)
 *단계별 내부 작업 파이프라인과 조건 분기를 표현합니다. (서브그래프 ID 직접 연결 수칙 준수)*
-<!-- 렌더링된 고해상도 이미지 자산이 있을 경우 링크: agy_outputs/images/image_(주제명)_YYMMDD.png -->
+<!-- 렌더링된 고해상도 이미지 자산이 있을 경우 링크: 02_output_data/01_figure/image_001_([주제명])_[YYMMDD]_rev00.png -->
 
 ```mermaid
 flowchart TD
@@ -138,7 +138,7 @@ flowchart TD
   - [ ] `path/to/handler.py`: [오류 핸들러 및 롤백 보상 트랜잭션 추가]
 - [ ] **Step 04: [작업 검증 및 완료 보고서 작성]**
   - [ ] 단위 테스트 작성 및 통과 검증
-  - [ ] 작업 완료 보고서 작성: `artifacts/walkthroughs/walkthrough_([주제명])_[YYMMDD].md`
+  - [ ] 작업 완료 보고서 작성: `00_artifacts/walkthroughs/walkthrough_001_([주제명])_[YYMMDD]_rev00.md`
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: init-env
-description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소, 규칙, 스킬, agents.md, hooks.json, mcp_config.json, GEMINI.md)을 스캐폴딩하고 초기화합니다. 사용자가 /init-env를 실행하거나 워크스페이스 에이전트 환경 및 산출물/자료 저장소 초기화, 생성, 스캐폴딩을 요청할 때 사용합니다.
+description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소, 규칙, 스킬, agents.md, hooks.json, mcp_config.json)을 스캐폴딩하고 초기화합니다. 사용자가 /init-env를 실행하거나 워크스페이스 에이전트 환경 및 산출물/자료 저장소 초기화, 생성, 스캐폴딩을 요청할 때 사용합니다.
 ---
 
 # 워크스페이스 환경 초기화 (`00_artifacts` ~ `04_rag_database`, `.agents/`)
@@ -46,7 +46,6 @@ description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_art
      - `.gitkeep`: 클린 베이스 디렉터리 유지 (세부 타깃 인덱스, 메타데이터, `.gitignore`는 `rag-builder` 스킬이 동적으로 생성/관리).
    - **`.agents/` (에이전트 거버넌스 및 커스터마이징)**:
      - `.agents/README.md`, `agents.md`, `rules/`, `skills/`, `hooks.json`, `mcp_config.json`.
-   - **`GEMINI.md`**: 전역 에이전트 행동 지침, 5대 번호형 트리, 저장소 격리 원칙, 일련번호/버전 명명 규칙.
 
 ---
 
