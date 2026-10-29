@@ -48,7 +48,7 @@
 ---
 
 ## 3. 아키텍처 및 작업 흐름도 (Architecture & Workflow)
-*`diagram-standard` 스킬에 따라 Level 1 조망도와 Level 2 세부 흐름도를 2계층으로 분리하여 작성합니다.*
+*`artifact-standard`(또는 `template_design.md`) 표준에 따라 Level 1 조망도와 Level 2 세부 흐름도를 2계층으로 분리하여 작성합니다.*
 
 ### Level 1. 시스템 전체 조망도 (Integration View)
 *외부 입출력 소스와 처리 시스템 간의 거시적 관계를 표현합니다.*

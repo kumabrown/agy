@@ -44,6 +44,11 @@ CATEGORY_MAP = {
         "template": "template_report.md",
         "category_name": "report",
     },
+    "design": {
+        "sub_dir": "designs",
+        "template": "template_design.md",
+        "category_name": "design",
+    },
 }
 
 
@@ -187,9 +192,11 @@ def create_artifact(
     content = content.replace("[분석/리서치 주제명을 명사형으로 명확히 작성]", f"{topic} 분석 리포트")
     content = content.replace("[구현/설계 주제명을 명사형으로 명확히 작성]", f"{topic} 구현 계획서")
     content = content.replace("[작업 완료 주제명을 명사형으로 명확히 작성]", f"{topic} 작업 완료 보고서")
+    content = content.replace("[시스템/파이프라인 설계 주제명을 명사형으로 명확히 작성]", f"{topic} 시스템 상세 설계서")
 
     if lite:
         content = content.replace("Standard (전체 분석)", "Lightweight (소규모 경량 분석)")
+        content = content.replace("Standard (전체 설계)", "Lightweight (소규모 경량 설계)")
         content = content.replace("Standard (전체 계획)", "Lightweight (소규모 경량 계획)")
         content = content.replace("Standard (전체 보고)", "Lightweight (소규모 패치 보고)")
 
@@ -230,8 +237,8 @@ def main() -> None:
     parser.add_argument(
         "--type", "-t",
         required=True,
-        choices=["plan", "walkthrough", "report"],
-        help="Artifact type: plan, walkthrough, or report.",
+        choices=["plan", "walkthrough", "report", "design"],
+        help="Artifact type: plan, walkthrough, report, or design.",
     )
     parser.add_argument(
         "--topic", "-k",

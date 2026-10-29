@@ -1,36 +1,38 @@
-# Artifact and Material Management Rule
+# 산출물 및 실무 자료 저장소 관리 규칙 (Artifact & Material Storage Rules)
 
-All generated markdown process artifacts, operational inputs, practical outputs, scripts, and RAG databases must be preserved under their respective 5 numbered directories:
+워크스페이스에서 생성·수집되는 모든 에이전트 프로세스 산출물, 실무 투입 자료, 엔지니어링 성과물, 자동화 스크립트 및 RAG 지식 베이스는 성격에 따라 아래 **5대 번호형 디렉터리**에 엄격히 격리하여 보관합니다.
 
-1. **Process Artifacts (`00_artifacts/`)**:
-   - Exclusively for Antigravity agent process outputs (.md only).
-   - Plans: `00_artifacts/plans/plan_([topic])_[YYMMDD]_rev[NN].md`
-   - Walkthroughs: `00_artifacts/walkthroughs/walkthrough_([topic])_[YYMMDD]_rev[NN].md`
-   - Reports: `00_artifacts/reports/report_([topic])_[YYMMDD]_rev[NN].md`
-   - Designs: `00_artifacts/designs/design_([topic])_[YYMMDD]_rev[NN].md`
+## 1. 5대 번호형 저장소 격리 원칙
 
-2. **Input Materials (`01_input_data/`)**:
-   - Received (`00_received/`): External provenance materials (spec sheets, CAD, raw data, test telemetry). Raw filenames preserved if required.
-   - References (`01_references/`):
-     - Agent task instructions, user guidelines, prompt context notes.
-     - Engineering standards, solver manuals, user-researched papers.
-     - Standard template: `[format]_[seq]_([topic])_[YYMMDD]_rev[NN].[ext]`
+1. **`00_artifacts/` (에이전트 프로세스 산출물 전용)**:
+   - **오직 Antigravity 에이전트의 작업 프로세스로부터 생성되는 마크다운(`.md`) 산출물**만 보관합니다.
+   - 사용자가 직접 작성한 파일이나 외부 원천 자료는 절대 이 폴더에 보관하지 않습니다.
+   - 하위 디렉터리:
+     - `plans/`: 구현 계획서 및 기능 기획서
+     - `walkthroughs/`: 작업 완료 보고서 및 테스트 검증 리포트
+     - `reports/`: 에이전트가 자체 조사·분석한 심층 기술 리포트
+     - `designs/`: 시스템 아키텍처 및 상세 설계서
 
-3. **Practical Outputs (`02_output_data/`)**:
-   - Data (`00_data/`): `excel_[seq]_([topic])_[YYMMDD]_rev[NN].xlsx`, `csv_[seq]_([topic])_[YYMMDD]_rev[NN].csv`
-   - Figure & Logs (`01_figure/`): `plot_[seq]_([topic])_[YYMMDD]_rev[NN].png`, `image_[seq]_([topic])_[YYMMDD]_rev[NN].png`, `log_[seq]_([topic])_[YYMMDD]_rev[NN].trn`
-   - Reports & Slides (`02_reports/`): `doc_[seq]_([topic])_[YYMMDD]_rev[NN].docx`, `ppt_[seq]_([topic])_[YYMMDD]_rev[NN].pptx`, `pdf_[seq]_([topic])_[YYMMDD]_rev[NN].pdf`
+2. **`01_input_data/` (실무 투입 자료 저장소)**:
+   - 업무 및 엔지니어링 해석을 위해 사전 투입되는 입력 자료를 보관합니다.
+   - 하위 디렉터리:
+     - `00_received/`: 고객사, 시험실, 협력사 등 외부에서 전달받은 원천 자료 (사양서, CAD/STEP 도면, 물성치 시트, 측정 데이터 등 — 원본 파일명 보존 허용)
+     - `01_references/`: 에이전트 작업 지시서/요구사항 메모, 솔버 매뉴얼, 산업 규격(ISO/ASME/ASTM), 사용자 수집 리서치 논문 및 데이터시트
 
-4. **Automation Scripts (`03_scripts/`)**:
-   - Pre/post processing Python: `py_[seq]_([topic])_[YYMMDD]_rev[NN].py`
-   - Solver batch journal: `jou_[seq]_([topic])_[YYMMDD]_rev[NN].jou`
+3. **`02_output_data/` (실무 엔지니어링 자산 저장소 - 작업 흐름 3단계)**:
+   - 실제 작업 및 시뮬레이션 결과로 생성된 비-마크다운 실무 자산을 작업 단계별로 분리 보관합니다.
+   - 하위 디렉터리:
+     - `00_data/`: 1단계 가공·정제 수치 데이터 및 해석 결과 데이터 (`excel`, `csv`)
+     - `01_figure/`: 2단계 시각화 플롯 차트, 아키텍처 다이어그램 이미지, 콘투어 캡처, 솔버 실행 로그 (`plot`, `image`, `architecture`, `log`)
+     - `02_reports/`: 3단계 최종 기술 완료 보고서, 발표 슬라이드, 배포용 문서 (`doc`, `ppt`, `pdf`)
 
-5. **RAG Knowledge Base (`04_rag_database/`)**:
-   - Dedicated storage for RAG indexes and vector databases.
-   - Targets, .gitignore, and catalog are dynamically managed on-demand by `rag-builder`.
+4. **`03_scripts/` (자동화 스크립트 저장소)**:
+   - 데이터 전/후처리 Python 스크립트(`py`), 솔버 배치 저널(`jou`, `ccl`), 쉘 스크립트(`sh`)를 독립 관리합니다.
 
-- Underscores only (`_`), no hyphens (`-`).
-- Topic enclosed in parentheses `(` `)`.
-- Sequence: 3-digit serial number (`001`, `002`, ... `999`).
-- Versioning: `rev00` default on creation; increment (`rev01`, `rev02`) on modification.
-- Always update index tables in the respective `README.md` files.
+5. **`04_rag_database/` (RAG 지식 베이스 저장소)**:
+   - 문서 기반 질의응답을 위한 벡터 인덱스(ChromaDB) 및 역색인(BM25) 전용 저장소이며, 세부 타깃 패키지(`<target_id>/`), 추출 이미지, `.gitignore` 및 카탈로그는 `rag-builder` 스킬이 동적으로 관리합니다.
+
+## 2. 파일 명명 규칙 및 인덱스 동기화 의무
+
+- **표준 파일 명명 규칙**: 모든 생성 파일의 이름은 반드시 [`.agents/rules/file_naming.md`](file_naming.md)에 정의된 통합 명명 규칙(`[포맷태그]_[일련번호]_([주제명])_[YYMMDD]_rev[NN].[확장자]`)을 준수합니다.
+- **중앙 인덱스 자동 동기화**: 각 저장소에 파일을 신규 생성하거나 리비전을 갱신할 때는 반드시 해당 저장소 루트의 `README.md`(`00_artifacts/README.md`, `01_input_data/README.md`, `02_output_data/README.md`, `04_rag_database/README.md`) 인덱스 테이블에 즉시 등록·갱신해야 합니다.
