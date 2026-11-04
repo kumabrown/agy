@@ -1,11 +1,16 @@
 ---
 name: init-env
-description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소, 규칙, 스킬, agents.md, hooks.json, mcp_config.json)을 스캐폴딩하고 초기화합니다. 사용자가 /init-env를 실행하거나 워크스페이스 에이전트 환경 및 산출물/자료 저장소 초기화, 생성, 스캐폴딩을 요청할 때 사용합니다.
+description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소)를 스캐폴딩하고 초기화합니다. 기본 실행 시 .agents/ 디렉터리는 생성하지 않으며(선택 옵션: --include-agents), 사용자가 /init-env를 실행하거나 워크스페이스 산출물/자료 저장소 초기화, 생성, 스캐폴딩을 요청할 때 사용합니다.
 ---
 
-# 워크스페이스 환경 초기화 (`00_artifacts` ~ `04_rag_database`, `.agents/`)
+# 워크스페이스 5대 실무 저장소 초기화 (`00_artifacts` ~ `04_rag_database`)
 
-사용자가 `/init-env`를 실행하거나 현재 워크스페이스에 5대 번호형 디렉터리(`00_artifacts/`, `01_input_data/`, `02_output_data/`, `03_scripts/`, `04_rag_database/`)와 `.agents/` 커스터마이징 환경 구축을 요청할 때 이 스킬을 사용합니다.
+사용자가 `/init-env`를 실행하거나 현재 워크스페이스에 5대 번호형 디렉터리(`00_artifacts/`, `01_input_data/`, `02_output_data/`, `03_scripts/`, `04_rag_database/`) 구축 및 초기화를 요청할 때 이 스킬을 사용합니다.
+
+> [!NOTE]
+> **`.agents/` 거버넌스 디렉터리 생성 정책**:  
+> 기본 실행 시 기존 워크스페이스의 에이전트 커스터마이징 및 설정을 안전하게 보호하기 위해 **`.agents/` 디렉터리는 생성하지 않습니다**.  
+> 빈 워크스페이스에서 거버넌스 템플릿까지 일괄 구축이 필요한 특수 상황에만 `--include-agents` 플래그를 선택적으로 사용합니다.
 
 ## 스캐폴딩 절차 (Scaffolding Procedure)
 
@@ -14,11 +19,15 @@ description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_art
    - 5대 번호형 디렉터리가 이미 존재하는지 점검합니다.
 
 2. **스캐폴딩 실행**:
-   - 워크스페이스에서 스캐폴딩 스크립트를 실행합니다:
+   - 워크스페이스에서 스캐폴딩 스크립트를 실행합니다 (기본: 5대 실무 저장소만 생성):
      ```bash
      python .agents/skills/init-env/scripts/scaffold_env.py --target-dir "<workspace_path>"
      ```
-   - 스크립트 실행이 불가능한 경우, 파일 생성 도구를 사용하여 디렉터리와 템플릿 파일을 직접 생성합니다.
+   - (선택) 빈 워크스페이스에서 `.agents/` 거버넌스 파일까지 함께 초기화하려는 경우:
+     ```bash
+     python .agents/skills/init-env/scripts/scaffold_env.py --target-dir "<workspace_path>" --include-agents
+     ```
+   - 스크립트 실행이 불가능한 경우, 파일 생성 도구를 사용하여 5대 디렉터리와 템플릿 파일을 직접 생성합니다.
 
 3. **스캐폴딩되는 5대 번호형 파일 구조**:
    - **`00_artifacts/` (오직 Antigravity 에이전트 작업 산출물 전용)**:
@@ -44,8 +53,6 @@ description: 표준 워크스페이스 환경(.agents 커스터마이징, 00_art
    - **`04_rag_database/` (RAG 지식 베이스 및 벡터 인덱스 저장소)**:
      - `04_rag_database/README.md`: RAG 관리 원칙 및 `rag-builder` 스킬 연동 가이드.
      - `.gitkeep`: 클린 베이스 디렉터리 유지 (세부 타깃 인덱스, 메타데이터, `.gitignore`는 `rag-builder` 스킬이 동적으로 생성/관리).
-   - **`.agents/` (에이전트 거버넌스 및 커스터마이징)**:
-     - `.agents/README.md`, `agents.md`, `rules/` (`file_naming.md`, `artifact_management.md`, `code_style.md`, `security.md`), `skills/`, `hooks.json`, `mcp_config.json`.
 
 ---
 
