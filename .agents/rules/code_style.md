@@ -1,3 +1,9 @@
+---
+trigger: glob
+globs: "**/*.py"
+description: 파이썬 소스 코드(.py) 작성, 수정 및 리팩토링 시 준수해야 하는 PEP 8 스타일 및 품질 가이드라인
+---
+
 # 파이썬 코드 스타일 및 품질 가이드라인 (Python Code Style & Quality Guidelines)
 
 ## 1. 명명 규칙 (Naming Conventions - PEP 8)

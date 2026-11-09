@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: 워크스페이스 5대 번호형 저장소(00_artifacts~04_rag_database) 격리 원칙 및 디렉터리 구조 관리 규칙
+---
+
 # 산출물 및 실무 자료 저장소 관리 규칙 (Artifact & Material Storage Rules)
 
 워크스페이스에서 생성·수집되는 모든 에이전트 프로세스 산출물, 실무 투입 자료, 엔지니어링 성과물, 자동화 스크립트 및 RAG 지식 베이스는 성격에 따라 아래 **5대 번호형 디렉터리**에 엄격히 격리하여 보관합니다.
@@ -26,8 +31,11 @@
      - `01_figure/`: 2단계 시각화 플롯 차트, 아키텍처 다이어그램 이미지, 콘투어 캡처, 솔버 실행 로그 (`plot`, `image`, `architecture`, `log`)
      - `02_reports/`: 3단계 최종 기술 완료 보고서, 발표 슬라이드, 배포용 문서 (`doc`, `ppt`, `pdf`)
 
-4. **`03_scripts/` (자동화 스크립트 저장소)**:
-   - 데이터 전/후처리 Python 스크립트(`py`), 솔버 배치 저널(`jou`, `ccl`), 쉘 스크립트(`sh`)를 독립 관리합니다.
+4. **`03_scripts/` (엔지니어링 자동화 스크립트 저장소)**:
+   - 언어 및 솔버 도구 성격에 따라 하위 디렉터리를 엄격히 분리하여 관리합니다.
+   - 하위 디렉터리:
+     - `python/`: 데이터 전/후처리, 시뮬레이션 파이프라인 등 Python 스크립트 전용 (`py`)
+     - `script/`: Fluent 저널, CFX 커맨드, CFD-Post 세션, Windows 배치 및 독립 실행 파일 (`jou`, `ccl`, `cse`, `bat`, `exe`)
 
 5. **`04_rag_database/` (RAG 지식 베이스 저장소)**:
    - 문서 기반 질의응답을 위한 벡터 인덱스(ChromaDB) 및 역색인(BM25) 전용 저장소이며, 세부 타깃 패키지(`<target_id>/`), 추출 이미지, `.gitignore` 및 카탈로그는 `rag-builder` 스킬이 동적으로 관리합니다.
@@ -35,4 +43,4 @@
 ## 2. 파일 명명 규칙 및 인덱스 동기화 의무
 
 - **표준 파일 명명 규칙**: 모든 생성 파일의 이름은 반드시 [`.agents/rules/file_naming.md`](file_naming.md)에 정의된 통합 명명 규칙(`[포맷태그]_[일련번호]_([주제명])_[YYMMDD]_rev[NN].[확장자]`)을 준수합니다.
-- **중앙 인덱스 자동 동기화**: 각 저장소에 파일을 신규 생성하거나 리비전을 갱신할 때는 반드시 해당 저장소 루트의 `README.md`(`00_artifacts/README.md`, `01_input_data/README.md`, `02_output_data/README.md`, `04_rag_database/README.md`) 인덱스 테이블에 즉시 등록·갱신해야 합니다.
+- **중앙 인덱스 자동 동기화**: 각 저장소에 파일을 신규 생성하거나 리비전을 갱신할 때는 반드시 해당 저장소 루트의 `README.md`(`00_artifacts/README.md`, `01_input_data/README.md`, `02_output_data/README.md`, `03_scripts/README.md`, `04_rag_database/README.md`) 인덱스 테이블에 즉시 등록·갱신해야 합니다.

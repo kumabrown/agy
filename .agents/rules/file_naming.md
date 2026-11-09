@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: 표준 파일 명명 규칙([포맷태그]_[일련번호]_([주제명])_[YYMMDD]_rev[NN].[확장자]) 및 버전 관리 가이드라인
+---
+
 # 표준 파일 명명 규칙 및 버전 관리 가이드라인 (File Naming & Versioning Rules)
 
 워크스페이스 내 모든 에이전트 산출물(`00_artifacts/`) 및 실무 엔지니어링 자산(`01_input_data/`, `02_output_data/`, `03_scripts/`, `04_rag_database/`)은 대량 파일 생성 시에도 생성 순서와 버전을 명확히 추적할 수 있도록 아래 통합 명명 규칙을 엄격히 준수합니다.
@@ -19,7 +24,8 @@
      > [!IMPORTANT]
      > **아키텍처 다이어그램 이미지 예외 수칙**: 아키텍처 및 프로세스 흐름도 다이어그램을 이미지 파일로 저장할 때는 포맷태그를 반드시 **`architecture`**로 지정합니다 (예: `architecture_001_(system_flow)_261029_rev00.png`).
    - **`02_output_data/02_reports/` (3단계 최종 보고서 및 발표자료)**: `doc`, `ppt`, `pdf`
-   - **`03_scripts/` (전/후처리 및 배치 자동화 스크립트)**: `py`, `jou`, `ccl`, `sh`
+   - **`03_scripts/python/` (Python 스크립트 전용)**: `py`
+   - **`03_scripts/script/` (솔버 배치 및 실행 파일)**: `jou`, `ccl`, `cse`, `bat`, `exe`
    - **`04_rag_database/<target_id>/images/` (RAG 추출 도면/차트 이미지)**: `image`
 3. **일련번호(`[일련번호]`)**: 대상 폴더 및 포맷별 **3자리 문서번호/생성 순번(`001`, `002`, ..., `999`)**을 부여하여 생성 순서대로 탐색기 자동 정렬을 지원합니다.
 4. **괄호 표기(`([주제명])`)**: 파일명 내의 `[주제명]` 부분은 반드시 소괄호 `(` 와 `)` 로 직접 감싸며, 주제명 내부 단어 구분에도 언더스코어(`_`)를 사용합니다.
@@ -40,4 +46,5 @@
 - **아키텍처 다이어그램 이미지**: `02_output_data/01_figure/architecture_001_(system_architecture)_261029_rev00.png`
 - **일반 플롯/차트 이미지**: `02_output_data/01_figure/plot_001_(temperature_contour)_261029_rev00.png`
 - **최종 기술 보고서**: `02_output_data/02_reports/doc_001_(final_analysis_report)_261029_rev00.docx`
-- **자동화 스크립트**: `03_scripts/py_001_(postprocess_parser)_261029_rev00.py`
+- **자동화 스크립트 (Python)**: `03_scripts/python/py_001_(postprocess_parser)_261029_rev00.py`
+- **자동화 스크립트 (솔버/배치/실행)**: `03_scripts/script/jou_001_(fluent_batch_solve)_261029_rev00.jou`

@@ -1,16 +1,11 @@
 ---
 name: init-env
-description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소)를 스캐폴딩하고 초기화합니다. 기본 실행 시 .agents/ 디렉터리는 생성하지 않으며(선택 옵션: --include-agents), 사용자가 /init-env를 실행하거나 워크스페이스 산출물/자료 저장소 초기화, 생성, 스캐폴딩을 요청할 때 사용합니다.
+description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artifacts 에이전트 산출물 전용 저장소, 01_input_data 실무 투입 자료 저장소, 02_output_data 실무 자료 저장소, 03_scripts 자동화 스크립트 저장소, 04_rag_database RAG 지식 베이스 저장소)를 스캐폴딩하고 초기화합니다. 순수하게 5대 실무 저장소 디렉터리와 README/gitkeep 파일만 생성하며, .agents 디렉터리 및 하위 거버넌스 파일은 일체 생성하지 않습니다.
 ---
 
 # 워크스페이스 5대 실무 저장소 초기화 (`00_artifacts` ~ `04_rag_database`)
 
 사용자가 `/init-env`를 실행하거나 현재 워크스페이스에 5대 번호형 디렉터리(`00_artifacts/`, `01_input_data/`, `02_output_data/`, `03_scripts/`, `04_rag_database/`) 구축 및 초기화를 요청할 때 이 스킬을 사용합니다.
-
-> [!NOTE]
-> **`.agents/` 거버넌스 디렉터리 생성 정책**:  
-> 기본 실행 시 기존 워크스페이스의 에이전트 커스터마이징 및 설정을 안전하게 보호하기 위해 **`.agents/` 디렉터리는 생성하지 않습니다**.  
-> 빈 워크스페이스에서 거버넌스 템플릿까지 일괄 구축이 필요한 특수 상황에만 `--include-agents` 플래그를 선택적으로 사용합니다.
 
 ## 스캐폴딩 절차 (Scaffolding Procedure)
 
@@ -19,13 +14,9 @@ description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artif
    - 5대 번호형 디렉터리가 이미 존재하는지 점검합니다.
 
 2. **스캐폴딩 실행**:
-   - 워크스페이스에서 스캐폴딩 스크립트를 실행합니다 (기본: 5대 실무 저장소만 생성):
+   - 워크스페이스에서 스캐폴딩 스크립트를 실행하여 5대 실무 저장소를 초기화합니다:
      ```bash
      python .agents/skills/init-env/scripts/scaffold_env.py --target-dir "<workspace_path>"
-     ```
-   - (선택) 빈 워크스페이스에서 `.agents/` 거버넌스 파일까지 함께 초기화하려는 경우:
-     ```bash
-     python .agents/skills/init-env/scripts/scaffold_env.py --target-dir "<workspace_path>" --include-agents
      ```
    - 스크립트 실행이 불가능한 경우, 파일 생성 도구를 사용하여 5대 디렉터리와 템플릿 파일을 직접 생성합니다.
 
@@ -49,7 +40,9 @@ description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artif
      - `02_output_data/01_figure/`: 2단계 시각화 플롯 차트, 아키텍처 다이어그램 이미지, 유선/온도장 콘투어 이미지, 격자/도면 캡처, 솔버 실행 로그.
      - `02_output_data/02_reports/`: 3단계 최종 기술 완료 보고서, 고객 보고용 발표 슬라이드, 배포용 요약 문서.
    - **`03_scripts/` (엔지니어링 자동화 스크립트 저장소)**:
-     - 데이터 전/후처리 Python 스크립트, Fluent/CFX 저널, 배치 자동화 쉘 스크립트.
+     - `03_scripts/README.md`: 스크립트 저장소 개요, 하위 폴더별 분류 기준 및 인덱스 테이블.
+     - `03_scripts/python/`: 데이터 전/후처리 및 파이프라인 등 Python 스크립트 전용 (`.py`).
+     - `03_scripts/script/`: 솔버 배치 저널, 세션 스크립트, 배치 파일 및 실행 파일 전용 (`.jou`, `.ccl`, `.cse`, `.bat`, `.exe`).
    - **`04_rag_database/` (RAG 지식 베이스 및 벡터 인덱스 저장소)**:
      - `04_rag_database/README.md`: RAG 관리 원칙 및 `rag-builder` 스킬 연동 가이드.
      - `.gitkeep`: 클린 베이스 디렉터리 유지 (세부 타깃 인덱스, 메타데이터, `.gitignore`는 `rag-builder` 스킬이 동적으로 생성/관리).
@@ -58,5 +51,5 @@ description: 표준 워크스페이스 5대 실무·산출물 저장소(00_artif
 
 ## 자료 분류 및 명명 규칙 준수 지침 (Reference Rules)
 
-- **저장소 영역 격리 및 인덱스 관리 원칙**: 5대 번호형 저장소별 자료 분류 기준과 `README.md` 인덱스 동기화 수칙은 [`.agents/rules/artifact_management.md`](../../rules/artifact_management.md) 규칙을 엄격히 따릅니다.
+- **저장소 영역 격리 및 인덱스 관리 원칙**: 5대 번호형 저장소별 자료 분류 기준과 `README.md` 인덱스 동기화 수칙은 [`.agents/rules/directory_structure.md`](../../rules/directory_structure.md) 규칙을 엄격히 따릅니다.
 - **통합 파일명 명명 규칙 및 버전 관리 표준**: 모든 생성 파일의 명명 템플릿(`[포맷태그]_[일련번호]_([주제명])_[YYMMDD]_rev[NN].[확장자]`), 포맷태그 매핑, 일련번호 및 리비전 부여 수칙은 [`.agents/rules/file_naming.md`](../../rules/file_naming.md) 규칙을 단일 기준(SSOT)으로 준수합니다.
