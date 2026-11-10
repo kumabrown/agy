@@ -1,0 +1,93 @@
+{
+  "project_meta": {
+    "topic": "sloshing_free_surface_analysis",
+    "description": "Transient free-surface liquid sloshing and multiphase flow analysis",
+    "solver": "ansys_fluent_3ddp",
+    "time_regime": "transient"
+  },
+  "physics_models": {
+    "energy": false,
+    "turbulence": {
+      "model": "k-omega-sst",
+      "wall_treatment": "low_re_y_plus_1"
+    },
+    "cht_coupled_wall": false,
+    "radiation": "none",
+    "buoyancy": {
+      "enabled": true,
+      "model": "gravity_standard"
+    },
+    "special_models": {
+      "multiphase": {
+        "model": "vof",
+        "scheme": "geo-reconstruct",
+        "primary_phase": "air",
+        "secondary_phase": "water",
+        "surface_tension_N_m": 0.0728,
+        "continuum_surface_force": true
+      }
+    }
+  },
+  "dimensionless_analysis": {
+    "governing_regime": "Surface-Tension & Gravity Governed Free Surface Flow",
+    "metrics": {
+      "We": {
+        "value": 450.0,
+        "formula": "rho*U^2*L/sigma",
+        "note": "We >> 1, inertial force dominates surface tension"
+      },
+      "Fr": {
+        "value": 1.25,
+        "formula": "U/sqrt(g*L)",
+        "note": "Fr > 1, supercritical open surface flow"
+      },
+      "Bo": {
+        "value": 3200.0,
+        "formula": "rho*g*L^2/sigma",
+        "note": "Bond number >> 1, gravity dominates surface tension on macro scale"
+      }
+    }
+  },
+  "materials": {
+    "air": {
+      "type": "fluid",
+      "phase": "primary",
+      "rho_kg_m3": 1.225,
+      "mu_Pa_s": 1.7894e-5
+    },
+    "water": {
+      "type": "fluid",
+      "phase": "secondary",
+      "rho_kg_m3": 998.2,
+      "mu_Pa_s": 0.001003
+    }
+  },
+  "boundary_conditions": {
+    "atmosphere_top": {
+      "type": "pressure-outlet",
+      "gauge_pressure_Pa": 0.0
+    },
+    "tank_walls": {
+      "type": "wall",
+      "contact_angle_deg": 90.0
+    }
+  },
+  "mesh_strategy": {
+    "target_y_plus": 1.0,
+    "notes": "Fine isotropic hexahedral/polyhedral mesh at the free surface interface"
+  },
+  "target_specs": {
+    "T_max_limit_K": null,
+    "dP_max_limit_Pa": null,
+    "convergence_criteria": {
+      "continuity_residual": 1e-4,
+      "energy_residual": 1e-6,
+      "monitor_fluctuation_pct": 0.1,
+      "conservation_imbalance_pct": {
+        "mass": 0.1,
+        "energy": 0.5
+      }
+    }
+  },
+  "results_summary": null
+}

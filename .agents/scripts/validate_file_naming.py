@@ -54,7 +54,7 @@ FOLDER_RULES = {
         "exts": None,
     },
     "02_output_data/00_data": {
-        "tags": {"excel", "csv"},
+        "tags": {"excel", "csv", "json"},
         "exts": None,
     },
     "02_output_data/01_figure": {

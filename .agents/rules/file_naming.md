@@ -19,7 +19,7 @@ description: 표준 파일 명명 규칙([포맷태그]_[일련번호]_([주제�
 2. **포맷 태그(`[포맷태그]`)**: 저장소 및 파일 성격에 맞는 지정 식별자를 사용합니다.
    - **`00_artifacts/` (에이전트 프로세스 산출물 - `.md` 전용)**: `plan`, `walkthrough`, `report`, `design`
    - **`01_input_data/01_references/` (작업 지시 및 참조 자료)**: `doc`, `pdf`, `excel`, `csv`, `txt`, `md`
-   - **`02_output_data/00_data/` (1단계 수치 데이터)**: `excel`, `csv`
+   - **`02_output_data/00_data/` (1단계 수치 데이터 및 정형 스펙 매니페스트)**: `excel`, `csv`, `json`
    - **`02_output_data/01_figure/` (2단계 시각화 및 실행 로그)**: `plot`, `image`, `architecture`, `log`
      > [!IMPORTANT]
      > **아키텍처 다이어그램 이미지 예외 수칙**: 아키텍처 및 프로세스 흐름도 다이어그램을 이미지 파일로 저장할 때는 포맷태그를 반드시 **`architecture`**로 지정합니다 (예: `architecture_001_(system_flow)_261029_rev00.png`).
@@ -42,6 +42,7 @@ description: 표준 파일 명명 규칙([포맷태그]_[일련번호]_([주제�
 - **구현 계획서 수정**: `00_artifacts/plans/plan_001_(battery_cooling)_261029_rev01.md`
 - **작업 완료 보고서**: `00_artifacts/walkthroughs/walkthrough_001_(battery_cooling)_261029_rev00.md`
 - **심층 분석 리포트**: `00_artifacts/reports/report_001_(orm_performance)_261029_rev00.md`
+- **정형 설계/결과 스펙 (JSON)**: `02_output_data/00_data/json_001_(battery_cooling_spec)_261029_rev00.json`
 - **가공 수치 데이터**: `02_output_data/00_data/excel_001_(cell1_discharge_preprocessed)_261029_rev00.xlsx`
 - **아키텍처 다이어그램 이미지**: `02_output_data/01_figure/architecture_001_(system_architecture)_261029_rev00.png`
 - **일반 플롯/차트 이미지**: `02_output_data/01_figure/plot_001_(temperature_contour)_261029_rev00.png`

@@ -1,0 +1,99 @@
+{
+  "project_meta": {
+    "topic": "stack_buoyancy_radiation_enclosure",
+    "description": "Natural convection buoyancy and Discrete Ordinates thermal radiation in a high-temperature enclosure",
+    "solver": "ansys_fluent_3ddp",
+    "time_regime": "steady"
+  },
+  "physics_models": {
+    "energy": true,
+    "turbulence": {
+      "model": "k-omega-sst",
+      "wall_treatment": "low_re_y_plus_1"
+    },
+    "cht_coupled_wall": false,
+    "radiation": "discrete_ordinates",
+    "buoyancy": {
+      "enabled": true,
+      "model": "boussinesq",
+      "operating_temperature_K": 300.0,
+      "thermal_expansion_beta_1_K": 0.00333
+    },
+    "special_models": {
+      "radiation_settings": {
+        "model": "discrete_ordinates",
+        "angular_discretization": "3x3",
+        "internal_emissivity": 0.85
+      }
+    }
+  },
+  "dimensionless_analysis": {
+    "governing_regime": "Natural Convection with Significant Surface Radiation",
+    "metrics": {
+      "Gr": {
+        "value": 4.5e8,
+        "formula": "g*beta*deltaT*L^3/nu^2",
+        "note": "Turbulent natural convection boundary layer"
+      },
+      "Ra": {
+        "value": 3.15e8,
+        "formula": "Gr*Pr",
+        "note": "Rayleigh number indicates turbulent natural convection"
+      },
+      "Pl": {
+        "value": 0.28,
+        "formula": "k/(4*sigma*T^3*L)",
+        "note": "Planck number < 1, radiation heat transfer comparable to conduction"
+      }
+    }
+  },
+  "materials": {
+    "air_boussinesq": {
+      "type": "fluid",
+      "rho_kg_m3": 1.177,
+      "cp_J_kgK": 1006.0,
+      "k_W_mK": 0.0262,
+      "mu_Pa_s": 1.846e-5,
+      "thermal_expansion_1_K": 0.00333
+    }
+  },
+  "boundary_conditions": {
+    "inlet_bottom": {
+      "type": "pressure-inlet",
+      "gauge_pressure_Pa": 0.0,
+      "temperature_K": 300.0
+    },
+    "outlet_top": {
+      "type": "pressure-outlet",
+      "gauge_pressure_Pa": 0.0
+    },
+    "hot_wall": {
+      "type": "wall",
+      "temperature_K": 573.15,
+      "internal_emissivity": 0.85
+    },
+    "cold_wall": {
+      "type": "wall",
+      "temperature_K": 300.0,
+      "internal_emissivity": 0.85
+    }
+  },
+  "mesh_strategy": {
+    "target_y_plus": 1.0,
+    "notes": "Fine prism boundary layer along vertical heated walls to resolve buoyancy-driven boundary layer"
+  },
+  "target_specs": {
+    "T_max_limit_K": 575.0,
+    "dP_max_limit_Pa": null,
+    "convergence_criteria": {
+      "continuity_residual": 1e-4,
+      "energy_residual": 1e-6,
+      "monitor_fluctuation_pct": 0.1,
+      "conservation_imbalance_pct": {
+        "mass": 0.1,
+        "energy": 0.5
+      }
+    }
+  },
+  "results_summary": null
+}

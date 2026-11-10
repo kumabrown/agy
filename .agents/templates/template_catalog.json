@@ -1,0 +1,68 @@
+{
+  "presets": {
+    "cht": {
+      "file": "template_cfd_spec_cht.json",
+      "description": "단상 복합열전달(CHT) 및 대류 냉각 해석 (전자장비, 냉각판, 방열판 등)",
+      "keywords": [
+        "conjugate heat transfer",
+        "cht",
+        "cooling",
+        "heat sink",
+        "coldplate",
+        "convection",
+        "heat flux",
+        "water cooling"
+      ],
+      "dimensionless_numbers": ["Re", "Pr", "Ri", "Nu"]
+    },
+    "multiphase": {
+      "file": "template_cfd_spec_multiphase.json",
+      "description": "자유표면 및 다상유동 해석 (슬로싱, 액적, 기포, 충진 등)",
+      "keywords": [
+        "vof",
+        "free surface",
+        "sloshing",
+        "droplet",
+        "bubble",
+        "surface tension",
+        "multiphase",
+        "filling",
+        "open channel"
+      ],
+      "dimensionless_numbers": ["We", "Fr", "Bo", "Eo", "Re"]
+    },
+    "radiation_buoyancy": {
+      "file": "template_cfd_spec_radiation_buoyancy.json",
+      "description": "고온 복사 및 자연대류/부력 유동 해석 (연돌, 실내 환기, 로/화로 등)",
+      "keywords": [
+        "radiation",
+        "discrete ordinates",
+        "do",
+        "s2s",
+        "natural convection",
+        "buoyancy",
+        "stack effect",
+        "enclosure",
+        "solar"
+      ],
+      "dimensionless_numbers": ["Gr", "Ra", "Pl", "Ri"]
+    },
+    "generic": {
+      "file": "template_cfd_spec_generic.json",
+      "description": "미분류 특수 물리 해석용 범용 추상 베이스라인 (연소, 화학반응, 공력음향, 회전체, FSI 등)",
+      "keywords": [
+        "generic",
+        "custom",
+        "fallback",
+        "combustion",
+        "reaction",
+        "species",
+        "acoustics",
+        "fsi",
+        "mrf",
+        "sliding mesh"
+      ],
+      "dimensionless_numbers": []
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "project_meta": {
+    "topic": "topic_name",
+    "description": "Project overview and simulation objectives",
+    "solver": "ansys_fluent_3ddp",
+    "time_regime": "steady"
+  },
+  "physics_models": {
+    "energy": true,
+    "turbulence": {
+      "model": "k-omega-sst",
+      "wall_treatment": "low_re_y_plus_1"
+    },
+    "cht_coupled_wall": false,
+    "radiation": "none",
+    "buoyancy": {
+      "enabled": false,
+      "model": "none"
+    },
+    "special_models": {}
+  },
+  "dimensionless_analysis": {
+    "governing_regime": "Determined by physics analysis",
+    "metrics": {}
+  },
+  "materials": {},
+  "boundary_conditions": {},
+  "mesh_strategy": {
+    "target_y_plus": 1.0,
+    "notes": "Define mesh guidelines and boundary layer resolution"
+  },
+  "target_specs": {
+    "T_max_limit_K": null,
+    "dP_max_limit_Pa": null,
+    "convergence_criteria": {
+      "continuity_residual": 1e-4,
+      "energy_residual": 1e-6,
+      "monitor_fluctuation_pct": 0.1,
+      "conservation_imbalance_pct": {
+        "mass": 0.1,
+        "energy": 0.5
+      }
+    }
+  },
+  "results_summary": null
+}

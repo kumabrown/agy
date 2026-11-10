@@ -20,5 +20,27 @@
         "timeout": 10
       }
     ]
+  },
+  "json-spec-guard": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/validate_json_spec.py --event PreToolUse",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python scripts/validate_json_spec.py --event Stop",
+        "timeout": 10
+      }
+    ]
   }
 }
